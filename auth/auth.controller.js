@@ -1,9 +1,10 @@
-const User = require('/auth.dao');
+const User = require('./auth.dao');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const SECRET_KEY = 'secretkey123456';
 
 exports.createUser = (req, res, next) => {
+    console.log('XXXXXX', req.body);
     const newUser = {
         name: req.body.name,
         email: req.body.email,
@@ -11,7 +12,7 @@ exports.createUser = (req, res, next) => {
     }
 
     User.create(newUser, (err, user) => {
-        if(err) return res.status(500).send('Server erro');
+        if(err) return res.status(500).send('Server error');
         const expiresIn = 24*60*60;
         const accessToken = jwt.sign({ id: user.id },
             SECRET_KEY, {
